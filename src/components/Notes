@@ -1,0 +1,872 @@
+
+//     import React, { useState, useEffect, useRef } from "react";
+//     import "./Global.css";
+    
+//     const Home = () => {
+//       const words = [
+//         "cat",
+//         "dog",
+//         "sun",
+//         "hat",
+//         "cup",
+//         "boy",
+//         "pen",
+//         "bag",
+//         "rat",
+//         "cow",
+//         "ant",
+//         "fox",
+//         "bus",
+//         "tan",
+//         "van",
+//         "fan",
+//         "kid",
+//         "sit",
+//         "tap",
+//         "ton",
+//         "net",
+//         "pot",
+//         "pad",
+//         "jam",
+//         "bug",
+//         "cap",
+//         "bob",
+//         "cot",
+//         "tab",
+//         "lab",
+//         "mad",
+//         "mug",
+//         "nap",
+//         "nut",
+//         "oat",
+//         "pet",
+//         "pup",
+//         "rag",
+//         "ram",
+//         "ran",
+//         "sat",
+//         "sap",
+//         "set",
+//         "tan",
+//         "tap",
+//         "tar",
+//         "tip",
+//         "ton",
+//         "top",
+//         "try",
+//         "tub",
+//         "tug",
+//         "van",
+//         "vet",
+//         "wag",
+//         "war",
+//         "was",
+//         "wat",
+//         "wax",
+//         "web",
+//         "wok",
+//         "won",
+//         "woo",
+//         "wot",
+//         "yap",
+//         "yaw",
+//         "yes",
+//         "yet",
+//         "yip",
+//         "yon",
+//         "you",
+//         "zap",
+//         "zat",
+//         "zen",
+//         "zip",
+//         "zit",
+//         "zoo",
+//         "axe",
+//         "ape",
+//         "ate",
+//         "bat",
+//         "bed",
+//         "beg",
+//         "bet",
+//         "bid",
+//         "big",
+//         "bin",
+//         "bit",
+//         "bob",
+//         "bog",
+//         "bot",
+//         "bow",
+//         "boy",
+//         "bum",
+//         "bun",
+//         "but",
+//         "buy",
+//         "byx",
+//         "cop",
+//         "cot",
+//         "cut",
+//         "dad",
+//         "dam",
+//         "day",
+//         "den",
+//         "did",
+//         "dip",
+//         "dog",
+//         "dot",
+//         "dry",
+//       ];
+    
+//       const [currentWords, setCurrentWords] = useState("");
+//       const [userInput, setUserInput] = useState("");
+//       const [timeLimit, setTimeLimit] = useState(1); // Default to 1 minute
+//       const [timeLeft, setTimeLeft] = useState(60); // Default to 60 seconds
+//       const [isRunning, setIsRunning] = useState(false);
+//       const [typingSpeed, setTypingSpeed] = useState(0);
+//       const [startIndex, setStartIndex] = useState(0);
+      
+//       const [isFinished, setIsFinished] = useState(false); // Track if the session is finished
+    
+//       const wordsPerLine = 10; // Adjust based on how many words should be visible per line
+    
+//       const timerRef = useRef(null);
+    
+//       useEffect(() => {
+//         generateRandomWords(); // Set initial random words when component mounts
+//       }, []);
+    
+//       useEffect(() => {
+//         if (isRunning) {
+//           timerRef.current = setInterval(() => {
+//             setTimeLeft((prevTime) => {
+//               if (prevTime <= 1) {
+//                 clearInterval(timerRef.current);
+//                 setIsRunning(false);
+//                 calculateTypingSpeed();
+//                 return 0; // Ensure timer does not go below 0
+//               }
+//               return prevTime - 1;
+//             });
+//           }, 1000);
+//         } else {
+//           clearInterval(timerRef.current);
+//         }
+//         return () => clearInterval(timerRef.current);
+//       }, [isRunning]);
+    
+//       useEffect(() => {
+//         if (timeLeft === 0) {
+//           setIsFinished(true); // Mark the session as finished when the timer runs out
+//           calculateTypingSpeed(); // Calculate typing speed immediately when time runs out
+    
+//         }
+//       }, [timeLeft]);
+    
+//       const shuffleArray = (array) => {
+//         return array.sort(() => Math.random() - 0.5);
+//       };
+    
+//       const generateRandomWords = () => {
+//         const shuffledWords = shuffleArray([...words]); // Shuffle words array
+//         setCurrentWords(shuffledWords.join(" ")); // Join words with spaces
+//         setUserInput(""); // Clear user input
+//         setTimeLeft(timeLimit * 60); // Reset timer
+//         setIsRunning(false); // Stop timer
+//         setTypingSpeed(0); // Reset typing speed
+//         setStartIndex(0); // Reset the start index
+//       };
+    
+//       const handleInputChange = (e) => {
+//         if (!isRunning) {
+//           setIsRunning(true);
+//         }
+//         const input = e.target.value.replace(/\s+/g, " "); // Replace multiple spaces with a single space
+//         setUserInput(input);
+    
+//         // Calculate the index to start displaying words based on user input
+//         const inputWords = input.trim().split(" ");
+//         if (inputWords.length > 2 * wordsPerLine) {
+//           setStartIndex(inputWords.length - 2 * wordsPerLine);
+//         }
+//         if (timeLeft === 0) {
+//           setIsFinished(true); // Mark as finished if time runs out while typing
+//         }
+//       };
+    
+//       const handleTimeLimitChange = (e) => {
+//         const selectedTime = parseInt(e.target.value);
+//         setTimeLimit(selectedTime);
+//         setTimeLeft(selectedTime * 60); // Set timeLeft based on selected time limit
+//       };
+    
+//       const calculateTypingSpeed = () => {
+//         const inputWords = userInput
+//           .trim()
+//           .split(" ")
+//           .filter((word) => word !== "");
+//         const totalCharactersTyped = userInput.replace(/\s+/g, "").length;
+      
+//         const targetWords = currentWords.split(" ");
+//         const correctWordsCount = inputWords.filter(
+//           (word, index) => word === targetWords[index]
+//         ).length;
+      
+//         const errorCount = inputWords.length - correctWordsCount;
+      
+//         // If all words are incorrect, set typingSpeed to 0
+//         if (correctWordsCount === 0) {
+//           setTypingSpeed(0);
+//           alert("you are chaman chutiya")
+//           return;
+//         }
+      
+//         const averageWordLength = totalCharactersTyped / inputWords.length;
+//         const adjustedCharactersTyped = totalCharactersTyped - errorCount;
+//         const minutesElapsed = (timeLimit * 60 - timeLeft) / 60;
+      
+//         const wpm =
+//           minutesElapsed > 0
+//             ? Math.round(adjustedCharactersTyped / averageWordLength / minutesElapsed)
+//             : 0;
+      
+//         setTypingSpeed(wpm);
+//       };
+      
+    
+//       const compareInputToWords = () => {
+//         const inputWords = userInput.trim().split(" ");
+//         const targetWords = currentWords
+//           .split(" ")
+//           .slice(startIndex, startIndex + 3 * wordsPerLine);
+      
+//         return targetWords.map((word, index) => {
+//           const userWord = inputWords[index + startIndex];
+      
+//           if (!userWord) {
+//             // Text remains black when generated (not typed yet)
+//             return (
+//               <span key={index} className="text-black">
+//                 {word}{" "}
+//               </span>
+//             );
+//           } else if (userWord === word) {
+//             // Text turns green if the user typed it correctly
+//             return (
+//               <span key={index} className="text-green-500">
+//                 {word}{" "}
+//               </span>
+//             );
+//           } else {
+//             // Text turns red if the user typed it incorrectly
+//             return (
+//               <span key={index} className="text-red-500">
+//                 {word}{" "}
+//               </span>
+//             );
+//           }
+//         });
+//       };
+      
+//       return (
+//         <>
+//           <div className="container flex flex-col items-center justify-center">
+//             <div className="flex flex-col text-center w-full my-4">
+//               <h1 className="sm:text-3xl mx-auto my-2 text-2xl font-medium title-font text-gray-900">
+//                 Test Your Typing Skills
+//               </h1>
+//             </div>
+    
+//             <section className="h-full w-full  text-gray-600 body-font">
+//               <div className="container flex justify-center">
+//                 <div
+//                   className="container w-2/3 bg-white rounded border border-gray-300
+//                    focus:border-red-500 focus:ring-2 focus:ring-red-200 h-32 outline-none text-gray-700 py-1 px-3 
+//                         leading-6 transition-colors duration-200 ease-in-out overflow-hidden typing-area"
+//                 >
+//                   <h1 className="text-2xl tracking-wide">
+//                     {compareInputToWords()}
+//                   </h1>
+//                 </div>
+//               </div>
+    
+//               <div className="flex justify-center items-center space-x-4 mt-6">
+//                 <div className="flex items-center">
+//                   <span className="mr-3">Time</span>
+//                   <div className="relative">
+//                     <select
+//                       className="rounded border h-11 w-36 bg-red-500 hover:bg-red-600 appearance-none py-2 px-8 focus:outline-none text-white text-base pl-3 pr-10"
+//                       onChange={handleTimeLimitChange}
+//                       value={timeLimit}
+//                     >
+//                       <option value={1}>{timeLeft} Sec</option>
+//                       <option value={3}>3 min</option>
+//                       <option value={5}>5 min</option>
+//                     </select>
+//                     <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+//                       <svg
+//                         fill="none"
+//                         stroke="currentColor"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                         strokeWidth="2"
+//                         className="w-4 h-4"
+//                         viewBox="0 0 24 24"
+//                       >
+//                         <path d="M6 9l6 6 6-6"></path>
+//                       </svg>
+//                     </span>
+//                   </div>
+//                 </div>
+//                 <button
+//                   className="flex text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg"
+//                   onClick={generateRandomWords} // Call function to regenerate words
+//                 >
+//                   Regenerate
+//                 </button>
+//               </div>
+    
+//               <div className="relative flex justify-center">
+//                 <textarea
+//                   id="message"
+//                   name="message"
+//                   className="my-5 w-2/3 bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2
+//                  focus:ring-red-200 h-10 outline-none text-gray-700 py-1 px-3 resize-none leading-6 
+//                  transition-colors duration-200 ease-in-out text-2xl font-sans"
+//                   value={userInput}
+//                   onChange={handleInputChange}
+//                   readOnly={timeLeft === 0} // Disable input when timeLeft is 0
+    
+//                  />
+//               </div>
+//             </section>
+//             <div className="text-center flex justify-center">
+//               <section className="text-gray-600 body-font">
+//                 <div className="h-64">
+//                   <div className="bg-gray-100 p-6 rounded-lg">
+//                     <h2 className="text-lg text-gray-900 font-medium title-font mb-4">
+//                       Your Typing Speed Analysis{" "}
+//                     </h2>
+//                     <p>Time left: {timeLeft}s</p>
+//                     <p>Typing Speed: {typingSpeed} WPM</p>
+//                     <p>
+//                       Words Typed:{" "}
+//                       {userInput.trim() === ""
+//                         ? 0
+//                         : userInput.trim().split(" ").length}
+//                     </p>
+//                     <p>Characters Typed: {userInput.replace(/\s+/g, "").length}</p>
+//                   </div>
+//                 </div>
+//               </section>
+//             </div>
+//           </div>
+//         </>
+//       );
+//     };
+    
+//     export default Home;
+//     <div className="relative inline-block text-left">
+//     <button
+//       onClick={toggleDropdown}
+//       className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+//     >
+//       Options
+//       <svg
+//         className="-mr-1 ml-2 h-5 w-5"
+//         xmlns="http://www.w3.org/2000/svg"
+//         viewBox="0 0 20 20"
+//         fill="currentColor"
+//         aria-hidden="true"
+//       >
+//         <path
+//           fillRule="evenodd"
+//           d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 111.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z"
+//           clipRule="evenodd"
+//         />
+//       </svg>
+//     </button>
+
+   
+//   </div>
+//     {isOpen && (
+//       <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-slate-500 ring-1
+//        ring-black ring-opacity-5">
+//         <div
+//           className="py-1"
+//           role="menu"
+//           aria-orientation="vertical"
+//           aria-labelledby="options-menu"
+//         >
+//           <a
+//             href="/forum"
+//             onClick={() => handleOptionClick("Option 1")}
+//             className="block px-4 py-2 text-lg text-yellow-200 hover:bg-gray-100 hover:text-gray-900"
+//             role="menuitem"
+//           >
+//             Option 1
+//           </a>
+//           <a
+//             href="#"
+//             onClick={() => handleOptionClick("Option 2")}
+//             className="block px-4 py-2 text-sm text-black-700 hover:bg-gray-100 hover:text-gray-900"
+//             role="menuitem"
+//           >
+//             Option 2
+//           </a>
+//           <a
+//             href="#"
+//             onClick={() => handleOptionClick("Option 3")}
+//             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+//             role="menuitem"
+//           >
+//             Option 3
+//           </a>
+//         </div>
+//       </div>
+//     )}
+
+//     const toggleDropdown = () => {
+//       setIsOpen(!isOpen);
+//     };
+  
+//     const handleOptionClick = (option) => {
+//       console.log(`You selected ${option}`);
+//       setIsOpen(false); // Close the dropdown after selecting an option
+//     };
+
+
+//     import React, { createContext, useState, useEffect, useRef } from "react";
+
+// const TypingContext = createContext();
+
+// export const TypingProvider = ({ children }) => {
+//   const [currentWords, setCurrentWords] = useState("");
+//   const [userInput, setUserInput] = useState("");
+//   const [timeLimit, setTimeLimit] = useState(1); // Default to 1 minute
+//   const [timeLeft, setTimeLeft] = useState(60); // Default to 60 seconds
+//   const [isRunning, setIsRunning] = useState(false);
+//   const [typingSpeed, setTypingSpeed] = useState(0);
+//   const [startIndex, setStartIndex] = useState(0);
+//   const [isFinished, setIsFinished] = useState(false); // Track if the session is finished
+
+//   const wordsPerLine = 10; // Adjust based on how many words should be visible per line
+
+//   const timerRef = useRef(null);
+
+//   const shuffleArray = (array) => {
+//     return array.sort(() => Math.random() - 0.5);
+//   };
+
+//   const generateRandomWords = (words) => {
+//     const shuffledWords = shuffleArray([...words]); // Shuffle words array
+//     const wordsString = shuffledWords.join(" "); // Join words with spaces
+//     setCurrentWords(wordsString); // Set as string
+//     setUserInput(""); // Clear user input
+//     setTimeLeft(timeLimit * 60); // Reset timer
+//     setIsRunning(false); // Stop timer
+//     setTypingSpeed(0); // Reset typing speed
+//     setStartIndex(0); // Reset the start index
+//   };
+
+//   useEffect(() => {
+//     if (isRunning) {
+//       timerRef.current = setInterval(() => {
+//         setTimeLeft((prevTime) => {
+//           if (prevTime <= 1) {
+//             clearInterval(timerRef.current);
+//             setIsRunning(false);
+//             calculateTypingSpeed();
+//             return 0; // Ensure timer does not go below 0
+//           }
+//           return prevTime - 1;
+//         });
+//       }, 1000);
+//     } else {
+//       clearInterval(timerRef.current);
+//     }
+//     return () => clearInterval(timerRef.current);
+//   }, [isRunning]);
+
+//   useEffect(() => {
+//     if (timeLeft === 0) {
+//       setIsFinished(true); // Mark the session as finished when the timer runs out
+//       calculateTypingSpeed(); // Calculate typing speed immediately when time runs out
+//     }
+//   }, [timeLeft]);
+
+//   const handleInputChange = (e) => {
+//     if (!isRunning) {
+//       setIsRunning(true);
+//     }
+//     const input = e.target.value.replace(/\s+/g, " "); // Replace multiple spaces with a single space
+//     setUserInput(input);
+
+//     // Calculate the index to start displaying words based on user input
+//     const inputWords = input.trim().split(" ");
+//     if (inputWords.length > 2 * wordsPerLine) {
+//       setStartIndex(inputWords.length - 2 * wordsPerLine);
+//     }
+//     if (timeLeft === 0) {
+//       setIsFinished(true); // Mark as finished if time runs out while typing
+//     }
+//   };
+
+//   const handleTimeLimitChange = (e) => {
+//     const selectedTime = parseInt(e.target.value);
+//     setTimeLimit(selectedTime);
+//     setTimeLeft(selectedTime * 60); // Set timeLeft based on selected time limit
+//   };
+
+//   const calculateTypingSpeed = () => {
+//     const inputWords = userInput
+//       .trim()
+//       .split(" ")
+//       .filter((word) => word !== "");
+//     const totalCharactersTyped = userInput.replace(/\s+/g, "").length;
+
+//     const targetWords = currentWords.split(" ");
+//     const correctWordsCount = inputWords.filter(
+//       (word, index) => word === targetWords[index]
+//     ).length;
+
+//     const errorCount = inputWords.length - correctWordsCount;
+
+//     // If all words are incorrect, set typingSpeed to 0
+//     if (correctWordsCount === 0) {
+//       setTypingSpeed(0);
+//        return;
+//     }
+
+//     const averageWordLength = totalCharactersTyped / inputWords.length;
+//     const adjustedCharactersTyped = totalCharactersTyped - errorCount;
+//     const minutesElapsed = (timeLimit * 60 - timeLeft) / 60;
+
+//     const wpm =
+//       minutesElapsed > 0
+//         ? Math.round(adjustedCharactersTyped / averageWordLength / minutesElapsed)
+//         : 0;
+
+//     setTypingSpeed(wpm);
+//   };
+
+//   const compareInputToWords = () => {
+//     const targetWords = currentWords.split(" ");
+//     const inputWords = userInput.trim().split(" ");
+    
+//     const displayedWords = targetWords.slice(startIndex, startIndex + 3 * wordsPerLine);
+
+//     return displayedWords.map((word, index) => {
+//       const userWord = inputWords[index + startIndex];
+
+//       if (!userWord) {
+//         return (
+//           <span key={index} className="text-black">
+//             {word}{" "}
+//           </span>
+//         );
+//       } else if (userWord === word) {
+//         return (
+//           <span key={index} className="text-green-500">
+//             {word}{" "}
+//           </span>
+//         );
+//       } else {
+//         return (
+//           <span key={index} className="text-red-500 ">
+//             {word}{" "}
+//           </span>
+//         );
+//       }
+//     });
+//   };
+
+//   return (
+//     <TypingContext.Provider
+//       value={{
+//         currentWords, // Provide currentWords
+//         userInput,
+//         timeLimit,
+//         timeLeft,
+//         isRunning,
+//         typingSpeed,
+//         isFinished,
+//         generateRandomWords,
+//         handleInputChange,
+//         handleTimeLimitChange,
+//         calculateTypingSpeed,
+//         compareInputToWords,
+//       }}
+//     >
+//       {children}
+//     </TypingContext.Provider>
+//   );
+// };
+
+// export default TypingContext;
+
+
+import React, { useContext, useEffect } from "react";
+import "./Global.css";
+import TypingContext from "./TypingContext";
+
+const Home = () => {
+  const words = [
+    "cat",
+    "dog",
+    "sun",
+    "hat",
+    "cup",
+    "boy",
+    "pen",
+    "bag",
+    "rat",
+    "cow",
+    "ant",
+    "fox",
+    "bus",
+    "tan",
+    "van",
+    "fan",
+    "kid",
+    "sit",
+    "tap",
+    "ton",
+    "net",
+    "pot",
+    "pad",
+    "jam",
+    "bug",
+    "cap",
+    "bob",
+    "cot",
+    "tab",
+    "lab",
+    "mad",
+    "mug",
+    "nap",
+    "nut",
+    "oat",
+    "pet",
+    "pup",
+    "rag",
+    "ram",
+    "ran",
+    "sat",
+    "sap",
+    "set",
+    "tan",
+    "tap",
+    "tar",
+    "tip",
+    "ton",
+    "top",
+    "try",
+    "tub",
+    "tug",
+    "van",
+    "vet",
+    "wag",
+    "war",
+    "was",
+    "wat",
+    "wax",
+    "web",
+    "wok",
+    "won",
+    "woo",
+    "wot",
+    "yap",
+    "yaw",
+    "yes",
+    "yet",
+    "yip",
+    "yon",
+    "you",
+    "zap",
+    "zat",
+    "zen",
+    "zip",
+    "zit",
+    "zoo",
+    "axe",
+    "ape",
+    "ate",
+    "bat",
+    "bed",
+    "beg",
+    "bet",
+    "bid",
+    "big",
+    "bin",
+    "bit",
+    "bob",
+    "bog",
+    "bot",
+    "bow",
+    "boy",
+    "bum",
+    "bun",
+    "but",
+    "buy",
+    "byx",
+    "cop",
+    "cot",
+    "cut",
+    "dad",
+    "dam",
+    "day",
+    "den",
+    "did",
+    "dip",
+    "dog",
+    "dot",
+    "dry",
+  ];
+
+  const {
+    userInput,
+    timeLimit,
+    timeLeft,
+    isRunning,
+    typingSpeed,
+    isFinished,
+    generateRandomWords,
+    handleInputChange,
+    handleTimeLimitChange,
+    compareInputToWords,
+  } = useContext(TypingContext);
+
+  useEffect(() => {
+    generateRandomWords(words); // Initialize words on component mount
+  }, []);
+
+  return (
+    <>
+      <div className="container flex flex-col items-center justify-center">
+        <div className="flex flex-col text-center w-full my-4">
+          <h1 className="sm:text-3xl mx-auto my-2 text-2xl font-medium title-font text-gray-900">
+            Test Your Typing Skills
+          </h1>
+        </div>
+
+        <section className="h-full w-full  text-gray-600 body-font">
+          <div
+            className={`container flex justify-center  ${
+              timeLeft === 0 ? "hidden" : ""
+            } `}
+          >
+            <div
+              className="container w-2/3 bg-white rounded border border-gray-300
+               focus:border-red-500 focus:ring-2 focus:ring-red-200 h-32 outline-none text-gray-700 py-1 px-3 
+                    leading-6 transition-colors duration-200 ease-in-out overflow-hidden typing-area"
+            >
+              <h1 className={`text-2xl tracking-wide no-select`}>
+                {compareInputToWords(words)}
+              </h1>
+            </div>
+          </div>
+        </section>
+        <div className="relative flex justify-center w-full">
+          <textarea
+            id="message"
+            name="message"
+            className="my-5 w-2/3 bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2
+                   focus:ring-red-200 h-10 outline-none text-gray-700 py-1 px-3 resize-none leading-6 
+                   transition-colors duration-200 ease-in-out text-2xl font-sans"
+            value={userInput}
+            onChange={(e) => handleInputChange(e, words)}
+            readOnly={timeLeft === 0} // Disable input when timeLeft is 0
+          />
+        </div>
+        <div className="flex items-center">
+          <div className="bg-red-500 flex justify-center items-center  mx-1 h-13 w-32 py-2 rounded text-center">
+            <span>
+              Select Time : <i className="fa-solid fa-arrow-right  "></i>{" "}
+            </span>
+          </div>
+          <div className="relative">
+            <select
+              className="rounded border h-13 w-24 bg-red-500 cursor-pointer hover:bg-red-600 appearance-none py-2 px-8 focus:outline-none  mx-1 text-base pl-3 pr-10"
+              onChange={handleTimeLimitChange}
+              value={timeLimit}
+            >
+              <option value={1}>
+                <span>1 min</span>
+              </option>
+              <option value={3}>3 min</option>
+              <option value={5}>5 min</option>
+            </select>
+
+            <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </span>
+          </div>
+          <div className="bg-red-500 flex justify-center items-center  mx-1 h-13 w-32 py-2 rounded text-center">
+            <h1>
+              {" "}
+              Time Left : <i className="fa-solid fa-arrow-right  "></i>
+            </h1>
+          </div>
+          <div className="bg-red-500   h-13 w-32 mx-1 py-2 rounded text-center">
+            <span>{timeLeft}Sec</span>
+          </div>
+
+          <button
+            className="flex  mx-1 bg-red-500 border-0 py-2 px-2 focus:outline-none hover:bg-red-600 
+            rounded "
+            onClick={() => generateRandomWords(words)} // Call function to regenerate words
+          >
+            Regenerate Text
+            {/* <i class="fa-solid fa-rotate-right"></i> */}
+          </button>
+        </div>
+
+        <div className="text-center flex justify-center">
+          <section className="text-gray-600 body-font">
+            <div className="h-64">
+              <div
+                className={`bg-gray-100 p-6 rounded-lg ${
+                  timeLeft !== 0 ? "hidden" : ""
+                }  `}
+              >
+                <h2 className="text-lg text-gray-900 font-medium title-font mb-4">
+                  Your Typing Speed Analysis{" "}
+                </h2>
+                <p>Time left: {timeLeft}s</p>
+                <p>Typing Speed: {typingSpeed} WPM</p>
+                <p>
+                  Words Typed:{" "}
+                  {userInput.trim() === ""
+                    ? 0
+                    : userInput.trim().split(" ").length}
+                </p>
+                <p>Characters Typed: {userInput.replace(/\s+/g, "").length}</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Home;
+
+
+   // Generate two-word combinations
+   const words = [];
+   for (let i = 0; i < letters.length; i++) {
+     for (let j = 0; j < letters.length; j++)
+      for (let k = 0; k < letters.length; k++) {
+       words.push(`${letters[i]}${letters[j]}${letters[k]}`);
+     }
+   }
