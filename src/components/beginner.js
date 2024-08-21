@@ -5,11 +5,61 @@ import Sidebar from "./Sidebar";
 
 const Beginner = () => {
   const words = [
-    "an", "as", "by", "do", "go", "he", "in", "it", "me", "my", "no", "on", "or", "so", "to", "up", "us", "we", 
-    "bat", "cat", "dog", "fan", "hat", "jam", "kit", "lip", "man", "net", "pan", "rat", "sun", "tap", "van", "win", 
-    "able", "bake", "calm", "dive", "fast", "give", "hope", "jump", "keep", "look", "move", "name", "open", "play", "quit", "rest", "ship", "trip", "wave", "year"
-];
-
+    "an",
+    "as",
+    "by",
+    "do",
+    "go",
+    "he",
+    "in",
+    "it",
+    "me",
+    "my",
+    "no",
+    "on",
+    "or",
+    "so",
+    "to",
+    "up",
+    "us",
+    "we",
+    "bat",
+    "cat",
+    "dog",
+    "fan",
+    "hat",
+    "jam",
+    "kit",
+    "lip",
+    "man",
+    "net",
+    "pan",
+    "rat",
+    "sun",
+    "tap",
+    "van",
+    "win",
+    "able",
+    "bake",
+    "calm",
+    "dive",
+    "fast",
+    "give",
+    "hope",
+    "jump",
+    "keep",
+    "look",
+    "move",
+    "name",
+    "open",
+    "play",
+    "quit",
+    "rest",
+    "ship",
+    "trip",
+    "wave",
+    "year",
+  ];
 
   const {
     userInput,
@@ -38,7 +88,8 @@ const Beginner = () => {
   return (
     <div className="flex">
       <Sidebar title="Beginner's Practice" links={beginnerLinks} />
-      <TypingArea
+
+       <TypingArea
         compareInputToWords={compareInputToWords}
         words={words}
         userInput={userInput}

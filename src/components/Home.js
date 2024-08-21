@@ -4,21 +4,104 @@ import TypingContext from "./TypingContext";
 
 const Home = () => {
   const words = [
-    "cat", "dog", "sun", "hat", "cup", "pen", "bag", "rain", "star", "apple", 
-    "quick", "brick", "jump", "space", "river", "forest", "laptop", "crane", 
-    "bridge", "smile", "craft", "climb", "house", "puzzle", "cookie", "tiger", 
-    "crown", "beach", "drive", "cloud", "track", "lucky", "mountain", "garden", 
-    "whisper", "rabbit", "yellow", "shadow", "thunder", "banana", "parrot", 
-    "jungle", "silver", "crystal", "pyramid", "basket", "window", "shadow", 
-    "blanket", "adventure", "capture", "glimmer", "sunshine", "purple", "twilight", 
-    "butterfly", "diamond", "airplane", "musical", "rainbow", "whistle", "unicorn", 
-    "kangaroo", "firefly", "elephant", "octopus", "keyboard", "telephone", "giraffe", 
-    "monkey", "penguin", "dolphin", "avocado", "crocodile", "pineapple", "bicycle", 
-    "fountain", "whistle", "umbrella", "backpack", "treasure", "snowflake", "balloon", 
-    "waterfall", "telescope", "pancake", "boulder", "guitar", "computer", "popcorn", 
-    "skyscraper", "sunflower", "chocolate", "carousel", "tangerine", "notebook", "carousel"
-];
-
+    "cat",
+    "dog",
+    "sun",
+    "hat",
+    "cup",
+    "pen",
+    "bag",
+    "rain",
+    "star",
+    "apple",
+    "quick",
+    "brick",
+    "jump",
+    "space",
+    "river",
+    "forest",
+    "laptop",
+    "crane",
+    "bridge",
+    "smile",
+    "craft",
+    "climb",
+    "house",
+    "puzzle",
+    "cookie",
+    "tiger",
+    "crown",
+    "beach",
+    "drive",
+    "cloud",
+    "track",
+    "lucky",
+    "mountain",
+    "garden",
+    "whisper",
+    "rabbit",
+    "yellow",
+    "shadow",
+    "thunder",
+    "banana",
+    "parrot",
+    "jungle",
+    "silver",
+    "crystal",
+    "pyramid",
+    "basket",
+    "window",
+    "shadow",
+    "blanket",
+    "adventure",
+    "capture",
+    "glimmer",
+    "sunshine",
+    "purple",
+    "twilight",
+    "butterfly",
+    "diamond",
+    "airplane",
+    "musical",
+    "rainbow",
+    "whistle",
+    "unicorn",
+    "kangaroo",
+    "firefly",
+    "elephant",
+    "octopus",
+    "keyboard",
+    "telephone",
+    "giraffe",
+    "monkey",
+    "penguin",
+    "dolphin",
+    "avocado",
+    "crocodile",
+    "pineapple",
+    "bicycle",
+    "fountain",
+    "whistle",
+    "umbrella",
+    "backpack",
+    "treasure",
+    "snowflake",
+    "balloon",
+    "waterfall",
+    "telescope",
+    "pancake",
+    "boulder",
+    "guitar",
+    "computer",
+    "popcorn",
+    "skyscraper",
+    "sunflower",
+    "chocolate",
+    "carousel",
+    "tangerine",
+    "notebook",
+    "carousel",
+  ];
 
   const [isVisible, setIsVisible] = useState(true);
   const [practiceLevel, setPracticeLevel] = useState("");
@@ -52,7 +135,7 @@ const Home = () => {
         setPracticeLevel("Advanced");
       }
     }
-  }, [typingSpeed]); 
+  }, [typingSpeed]);
 
   const handleInput = (e) => {
     if (isVisible) {
@@ -69,7 +152,7 @@ const Home = () => {
     <div>
       {isVisible && (
         <div
-          className="bg-white border border-blue-400 text-black-700 px-4 py-3 rounded relative"
+          className="  border border-black-400   px-4 py-3 rounded relative"
           role="alert"
         >
           <span className="block sm:inline font-semibold">
@@ -94,7 +177,7 @@ const Home = () => {
       <div>
         <div className="container flex flex-col items-center justify-center">
           <div className="flex flex-col text-center w-full my-4">
-            <h1 className="sm:text-3xl mx-auto my-2 text-2xl font-medium title-font text-gray-900">
+            <h1 className="sm:text-3xl mx-auto my-2 text-2xl font-medium title-font ">
               Test Your Typing Skills
             </h1>
           </div>

@@ -14,14 +14,14 @@ const TypingArea = ({
   accuracy,
 }) => {
   return (
-    <div className="container flex flex-col items-center justify-center">
+    <div className="container flex flex-col items-center justify-center ">
       <div className="flex flex-col text-center w-full my-4">
-        <h1 className="sm:text-3xl mx-auto my-2 text-2xl font-medium title-font text-gray-900">
+        <h1 className="sm:text-3xl mx-auto my-2 text-2xl font-medium title-font ">
           Test Your Typing Skills
         </h1>
       </div>
 
-      <section className="h-full w-full text-gray-600 body-font">
+      <section className="h-full w-full  body-font">
         <div className="container flex justify-center">
           <div
             className="container w-2/3 bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2
@@ -48,15 +48,19 @@ const TypingArea = ({
         />
       </div>
 
-      <div className="flex items-center">
-        <div className="bg-red-500 flex justify-center items-center mx-1 h-13 w-32 py-2 rounded text-center">
+      <div className="flex flex-col md:flex-row items-center justify-center w-full mt-4">
+        <div
+          className="bg-red-500 flex justify-center items-center h-12 w-full md:w-32
+         py-2 rounded text-center mx-1"
+        >
           <span>
-            Select Time : <i className="fa-solid fa-arrow-right"></i>
+            Select Time: <i className="fa-solid fa-arrow-right"></i>
           </span>
         </div>
-        <div className="relative">
+        <div className="relative w-full md:w-auto mx-1">
           <select
-            className="rounded border h-13 w-24 text-white bg-red-500 cursor-pointer hover:bg-red-600 appearance-none py-2 px-8 focus:outline-none mx-1 text-base pl-3 pr-10"
+            className="rounded border h-12 w-full md:w-24 text-white bg-red-500 cursor-pointer
+             hover:bg-red-600 appearance-none py-2 px-4 focus:outline-none text-base pl-3 pr-10"
             onChange={handleTimeLimitChange}
             value={timeLimit}
           >
@@ -78,14 +82,16 @@ const TypingArea = ({
             </svg>
           </span>
         </div>
-        <div className="bg-red-500 flex justify-center items-center mx-1 h-13 w-32 py-2 rounded text-center">
-          <h1>Time Left : <i className="fa-solid fa-arrow-right"></i></h1>
+        <div className="bg-red-500 flex justify-center items-center h-12 w-full md:w-32 py-2 rounded text-center mx-1">
+          <h1>
+            Time Left: <i className="fa-solid fa-arrow-right"></i>
+          </h1>
         </div>
-        <div className="bg-red-500 text-white h-13 w-32 mx-1 py-2 rounded text-center">
+        <div className="bg-red-500 text-white h-12 w-full md:w-32 py-2 rounded text-center mx-1">
           <span>{timeLeft} Sec</span>
         </div>
         <button
-          className="flex mx-1 bg-red-500 border-0 py-2 px-2 focus:outline-none hover:bg-red-600 rounded"
+          className="flex w-full md:w-auto mx-1 bg-red-500 border-0 py-2 px-2 focus:outline-none hover:bg-red-600 rounded"
           onClick={() => generateRandomWords(words)} // Call function to regenerate words
         >
           Regenerate Text

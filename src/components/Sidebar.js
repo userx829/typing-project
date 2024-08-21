@@ -7,11 +7,12 @@ const Sidebar = ({ title, links }) => {
       <div className="p-6">
         <h1 className="text-2xl font-semibold">{title}</h1>
       </div>
+      <hr className="border-4-gray-300 my-2" />
 
       <nav className="mt-6 flex flex-col justify-center">
         <ul>
           {links && links.map((item, index) => (
-            <li key={index} className="py-2 px-6 hover:bg-gray-700">
+            <li key={index} className="py-2 px-6 hover:bg-white hover:text-black">
               <Link
                 to={item.path}
                 className="flex items-center"
