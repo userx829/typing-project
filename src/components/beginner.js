@@ -87,7 +87,7 @@ const Beginner = () => {
 
   return (
     <div className="flex">
-      <Sidebar title="Beginner's Practice" links={beginnerLinks} />
+      <Sidebar title="Beginner's Section" links={beginnerLinks} />
 
        <TypingArea
         compareInputToWords={compareInputToWords}

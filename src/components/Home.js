@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./Global.css";
 import TypingContext from "./TypingContext";
+import backgroundImage from "./night.png";
 
 const Home = () => {
   const words = [
@@ -122,6 +123,10 @@ const Home = () => {
   } = useContext(TypingContext);
 
   useEffect(() => {
+    // Check sessionStorage for alert visibility status
+    const isAlertDismissed = sessionStorage.getItem("alertDismissed") === "true";
+    setIsVisible(!isAlertDismissed);
+
     generateRandomWords(words); // Initialize words on component mount
   }, []);
 
@@ -144,15 +149,23 @@ const Home = () => {
     handleInputChange(e); // Call the existing input change handler
   };
 
+
   const handleClose = () => {
     setIsVisible(false);
+    sessionStorage.setItem("alertDismissed", "true"); // Store the dismissal state in sessionStorage
   };
-
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {isVisible && (
         <div
-          className="  border border-black-400   px-4 py-3 rounded relative"
+          className="text-white border border-black-400   px-4 py-3 rounded relative"
           role="alert"
         >
           <span className="block sm:inline font-semibold">
@@ -175,9 +188,9 @@ const Home = () => {
       )}
 
       <div>
-        <div className="container flex flex-col items-center justify-center">
+        <div className=" container flex flex-col items-center justify-center">
           <div className="flex flex-col text-center w-full my-4">
-            <h1 className="sm:text-3xl mx-auto my-2 text-2xl font-medium title-font ">
+            <h1 className="text-white sm:text-3xl mx-auto my-2 text-2xl font-medium title-font ">
               Test Your Typing Skills
             </h1>
           </div>
@@ -207,57 +220,57 @@ const Home = () => {
               readOnly={timeLeft === 0} // Disable input when timeLeft is 0
             />
           </div>
-          <div className="flex items-center">
-            <div className="bg-red-500 flex justify-center items-center  mx-1 h-13 w-32 py-2 rounded text-center">
-              <span>
-                Select Time :{" "}
-                <i className="fa-solid fa-arrow-right  text-sm  "></i>{" "}
-              </span>
-            </div>
-            <div className="relative">
-              <select
-                className="rounded border h-13 w-24 text-white bg-red-500 cursor-pointer hover:bg-red-600 appearance-none py-2 px-8 focus:outline-none  mx-1 text-base pl-3 pr-10"
-                onChange={handleTimeLimitChange}
-                value={timeLimit}
-              >
-                <option value={1}>1 min</option>
-                <option value={3}>3 min</option>
-                <option value={5}>5 min</option>
-              </select>
+          <div className="flex flex-wrap items-center justify-center gap-2 p-4">
+  <div className="bg-red-500 flex justify-center items-center mx-1 h-12 w-full sm:w-32 py-2 rounded text-center text-xs sm:text-base">
+    <span>
+      Select Time :{" "}
+      <i className="fa-solid fa-arrow-right text-sm"></i>{" "}
+    </span>
+  </div>
+  
+  <div className="relative w-full sm:w-24">
+    <select
+      className="rounded border h-12 w-full text-white bg-red-500 cursor-pointer hover:bg-red-600 appearance-none py-2 px-3 focus:outline-none text-sm sm:text-base"
+      onChange={handleTimeLimitChange}
+      value={timeLimit}
+    >
+      <option value={1}>1 min</option>
+      <option value={3}>3 min</option>
+      <option value={5}>5 min</option>
+    </select>
+    <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
+      <svg
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        className="w-4 h-4"
+        viewBox="0 0 24 24"
+      >
+        <path d="M6 9l6 6 6-6"></path>
+      </svg>
+    </span>
+  </div>
 
-              <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M6 9l6 6 6-6"></path>
-                </svg>
-              </span>
-            </div>
-            <div className="bg-red-500  flex justify-center items-center  mx-1 h-13 w-32 py-2 rounded text-center">
-              <h1>
-                {" "}
-                Time Left :{" "}
-                <i className="fa-solid fa-arrow-right text-sm  "></i>
-              </h1>
-            </div>
-            <div className="bg-red-500  text-white h-13 w-32 mx-1 py-2 rounded text-center">
-              <span>{timeLeft} Sec</span>
-            </div>
+  <div className="bg-red-500 flex justify-center items-center mx-1 h-12 w-full sm:w-32 py-2 rounded text-center text-xs sm:text-base">
+    <h1>
+      Time Left :{" "}
+      <i className="fa-solid fa-arrow-right text-sm"></i>
+    </h1>
+  </div>
 
-            <button
-              className="flex  mx-1 bg-red-500 border-0 py-2 px-2 focus:outline-none hover:bg-red-600 
-            rounded "
-              onClick={() => generateRandomWords(words)} // Call function to regenerate words
-            >
-              Regenerate Text
-            </button>
-          </div>
+  <div className="bg-red-500 text-white h-12 w-full sm:w-32 mx-1 py-2 rounded text-center text-xs sm:text-base">
+    <span>{timeLeft} Sec</span>
+  </div>
+
+  <button
+    className="flex w-full sm:w-auto mx-1 bg-red-500 border-0 py-2 px-4 focus:outline-none hover:bg-red-600 rounded text-xs sm:text-base"
+    onClick={() => generateRandomWords(words)} // Call function to regenerate words
+  >
+    Regenerate Text
+  </button>
+</div>
 
           {/* Typing Speed Analysis Section */}
           <div className="text-center flex justify-center my-2">
